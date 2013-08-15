@@ -4,6 +4,17 @@ class User < ActiveRecord::Base
 
   validates :username, :password_digest, :presence => true
 
+  has_many :friend_circle_memberships, :class_name => "FriendCircleMembership",
+   :primary_key => :id, :foreign_key => :member_id
+
+  has_many :circles, :through => :friend_circle_memberships,
+           :source => :friend_circle
+
+  has_many :friends, :through => :circles, :source => :members
+
+  has_many :posts, :class_name  => "User", :primary_key  => :id,
+          :foreign_key  => :user_id
+
   def password=(plaintext)
     if plaintext.blank?
       self.errors.add(:password, "doesn't have any non-blank chars.")

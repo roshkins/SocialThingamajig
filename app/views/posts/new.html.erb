@@ -1,0 +1,16 @@
+<h1>Posts</h1>
+<form action="<%= posts_url %>" method="post">
+	<input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+	<label for="post_title">Title</label><br>
+	<input type="text" name="post[title]" id="post_title" value="<%= @post.title %>"><br>
+	<label for="post_body">Body</label><br>
+	<textarea id="post_body" name="post[body]"><%= @post.body %></textarea><br>
+
+	<% @links.each_with_index do |link, index| %>
+	<label for="post_link_<%= index %>">Link:</label>
+	<input type="text" name="post[links_attributes][<%= index %>][link_url]" value="<%= link.link_url %>" id="post_link_<%= index %>"> <br>
+	<% end %>
+
+		<input type="submit" value="Post">
+</form>
+

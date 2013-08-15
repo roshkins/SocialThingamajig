@@ -11,7 +11,55 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130814180403) do
+ActiveRecord::Schema.define(:version => 20130814232515) do
+
+  create_table "friend_circle_memberships", :force => true do |t|
+    t.integer  "circle_id"
+    t.integer  "member_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+    t.boolean  "admin"
+  end
+
+  add_index "friend_circle_memberships", ["circle_id"], :name => "index_friend_circle_memberships_on_circle_id"
+  add_index "friend_circle_memberships", ["member_id"], :name => "index_friend_circle_memberships_on_member_id"
+
+  create_table "friend_circles", :force => true do |t|
+    t.integer  "friender_id", :null => false
+    t.integer  "friendee_id", :null => false
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+    t.string   "title"
+  end
+
+  create_table "links", :force => true do |t|
+    t.integer  "post_id"
+    t.string   "link_url"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "links", ["post_id"], :name => "index_links_on_post_id"
+
+  create_table "post_shares", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "circle_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "post_shares", ["circle_id"], :name => "index_post_shares_on_circle_id"
+  add_index "post_shares", ["user_id"], :name => "index_post_shares_on_user_id"
+
+  create_table "posts", :force => true do |t|
+    t.integer  "user_id"
+    t.string   "title"
+    t.text     "body"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "posts", ["user_id"], :name => "index_posts_on_user_id"
 
   create_table "users", :force => true do |t|
     t.string   "username"
